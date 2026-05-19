@@ -724,6 +724,24 @@
             display: none;
         }
 
+        /* Rating Screen */
+        .rating-box {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            justify-content: center;
+        }
+        .star {
+            font-size: 3rem;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .star:hover, .star.active {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+
         /* Canvas (Hidden) */
         #offscreen-canvas {
             display: none;
@@ -896,7 +914,25 @@
             </div>
         </div>
 
-        <button class="btn btn-outline" onclick="resetApp()" style="margin-top: 1rem;">Mulai Lagi</button>
+        <button class="btn btn-outline" onclick="goToScreen(9)" style="margin-top: 1rem;">Selesai →</button>
+    </div>
+
+    <!-- SCREEN 9: Terima Kasih & Rating -->
+    <div id="screen-9" class="screen">
+        <h2 style="font-size: 3rem; margin-bottom: 1rem; font-family: var(--font-head);">Terima Kasih!</h2>
+        <p style="font-size: 1.2rem; color: #64748b; margin-bottom: 2rem; text-align: center;">Bagaimana pengalaman Anda menggunakan VISIONAIRE BOOTH hari ini?</p>
+        
+        <div class="rating-box" id="rating-stars">
+            <div class="star" onclick="setRating(1)">★</div>
+            <div class="star" onclick="setRating(2)">★</div>
+            <div class="star" onclick="setRating(3)">★</div>
+            <div class="star" onclick="setRating(4)">★</div>
+            <div class="star" onclick="setRating(5)">★</div>
+        </div>
+
+        <p id="rating-feedback" style="font-size: 1.1rem; color: var(--primary); min-height: 1.5rem; margin-bottom: 2rem; font-weight: 500;"></p>
+
+        <button class="btn" onclick="resetApp()">Selesai & Kembali ke Awal</button>
     </div>
 
     <!-- Hidden canvas for processing -->
@@ -984,6 +1020,7 @@
             if (step === 6) processCompositing();
             if (step === 7) renderResults();
             if (step === 8) setupFinalScreen();
+            if (step === 9) resetRating();
 
             // Stop camera if not on screen 5
             if (step !== 5 && stream) {
@@ -1454,6 +1491,22 @@
             goToScreen(1);
         }
 
+        // --- RATING & THANKS ---
+        function setRating(val) {
+            const stars = document.querySelectorAll('#rating-stars .star');
+            stars.forEach((s, idx) => {
+                if (idx < val) s.classList.add('active');
+                else s.classList.remove('active');
+            });
+
+            const texts = ["Kurang Memuaskan", "Cukup", "Bagus", "Sangat Bagus", "Luar Biasa!"];
+            document.getElementById('rating-feedback').textContent = texts[val - 1];
+        }
+
+        function resetRating() {
+            document.querySelectorAll('#rating-stars .star').forEach(s => s.classList.remove('active'));
+            document.getElementById('rating-feedback').textContent = '';
+        }
     </script>
 </body>
 </html>
