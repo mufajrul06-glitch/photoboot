@@ -1225,7 +1225,7 @@
             ctx.putImageData(imgData, 0, 0);
             
             // Simulate processing time
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 50));
             
             // Create final canvas
             const finalCanvas = document.createElement('canvas');
@@ -1271,7 +1271,7 @@
             
             pFill.style.width = '90%';
             sText.textContent = 'Penyelesaian akhir...';
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 50));
             
             // Overlay the chroma-keyed template on top
             finalCtx.drawImage(canvas, 0, 0);
@@ -1281,7 +1281,7 @@
             
             pFill.style.width = '100%';
             sText.textContent = 'Berhasil!';
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 50));
 
             goToScreen(7);
         }
